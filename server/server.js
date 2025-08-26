@@ -9,6 +9,7 @@ const globalErrorHandler = require("./middlewares/globalErrorHandler");
 const authRoutes = require("./routes/authRoutes");
 const urlRoutes = require('./routes/urlRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const { redirectToOriginal } = require('./controllers/urlController');
 connectDB();
 
 const app = express();
@@ -34,9 +35,7 @@ app.use('/api/v1/admin', adminRoutes);
 
 app.use(globalErrorHandler);
 
-app.get('/', (req, res) => {
-  res.send('URL Shortener Backend Running');
-});
+app.get('/:shortcode', redirectToOriginal);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
